@@ -1,10 +1,8 @@
 package com.example.geoquiz;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +36,7 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate() called");
         setContentView(R.layout.activity_quiz);
 
-        mQuestionTextView = (TextView) findViewById(R.id.question_view_next);
+        mQuestionTextView = (TextView) findViewById(R.id.question_view_text);
 
         mTrueButton = (Button) findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
