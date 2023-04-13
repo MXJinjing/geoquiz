@@ -34,7 +34,8 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         mQuestionTextView = (TextView) findViewById(R.id.question_view_next);
-        updateQuestion();
+        int question = mQuestionBank[mCurrentIndex].getTextResID();
+        mQuestionTextView.setText(question);
 
         mTrueButton = (Button) findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +57,7 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCurrentIndex = (mCurrentIndex + 1) % 5;
-                updateQuestion();
+                nextQuestion(mCurrentIndex + 1);
             }
         });
 
@@ -65,17 +65,21 @@ public class QuizActivity extends AppCompatActivity {
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCurrentIndex = (mCurrentIndex + 5 - 1) % 5;
-                updateQuestion();
+                nextQuestion(mCurrentIndex + 5 - 1);
             }
+        });
+
+        mQuestionTextView.setOnClickListener(view -> {
+            nextQuestion(mCurrentIndex + 1);
         });
     }
 
-
-    private void updateQuestion() {
-        int question = mQuestionBank[mCurrentIndex].getTextResID();
+    private void nextQuestion(int mCurrentIndex) {
+        this.mCurrentIndex = mCurrentIndex % 5;
+        int question = mQuestionBank[this.mCurrentIndex].getTextResID();
         mQuestionTextView.setText(question);
     }
+
 
     private void checkAnswer(boolean userPressedTrue) {
         boolean AnswerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
