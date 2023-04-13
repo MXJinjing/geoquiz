@@ -32,7 +32,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        mQuestionTextView = (TextView) findViewById(R.id.question_view_next);
+        mQuestionTextView = (TextView) findViewById(R.id.question_view_text);
         updateQuestion();
 
         mTrueButton = (Button) findViewById(R.id.true_button);
