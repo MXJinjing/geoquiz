@@ -1,13 +1,18 @@
 package com.example.geoquiz;
 
+import androidx.annotation.AnimatorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,6 +26,7 @@ public class CheatActivity extends AppCompatActivity {
     private TextView mAnswerTextView;
     private Button mShowAnswer;
     private boolean mAnswerHasShown;
+    private TextView mApiTextView;
 
     public static Intent newIntent(Context packageContext, boolean answer_is_true) {
         Intent i = new Intent(packageContext, CheatActivity.class);
@@ -51,8 +57,30 @@ public class CheatActivity extends AppCompatActivity {
                 }
                 mAnswerHasShown = true;
                 setAnswerShownResult(true);
+                mShowAnswer.setClickable(false);
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                    int cx = mShowAnswer.getWidth() / 2;
+                    int cy = mShowAnswer.getHeight() / 2;
+                    float radius = mShowAnswer.getWidth();
+                    Animator anim = ViewAnimationUtils.createCircularReveal(mShowAnswer, cx, cy, radius, 0);
+                    anim.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            mShowAnswer.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                    anim.start();
+                }else{
+                    mShowAnswer.setVisibility(View.INVISIBLE);
+                }
             }
         });
+
+        mApiTextView = (TextView) findViewById(R.id.apiTextView);
+        int apiLevel = Build.VERSION.SDK_INT;
+        mApiTextView.setText("API level " + apiLevel);
 
         mAnswerHasShown = false;
 
@@ -67,7 +95,6 @@ public class CheatActivity extends AppCompatActivity {
                 setAnswerShownResult(true);
             }
         }
-
 
     }
 
